@@ -15,7 +15,11 @@ pipeline {
     }
 
     environment {
-        // Update with your Docker Hub repository: <username>/<repository>
+        // Ensure Homebrew and standard binaries (mvn, docker) are accessible in Jenkins agent environment
+        PATH = "/opt/homebrew/bin:/usr/local/bin:${env.PATH}"
+        JAVA_HOME = '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home'
+
+        // Docker Hub repository: <username>/<repository>
         DOCKER_IMAGE = 'mithilesh2303/calculator-api'
         DOCKER_CRED_ID = 'dockerhub-credentials'
         
@@ -110,31 +114,43 @@ pipeline {
     post {
         success {
             echo "Build #${env.BUILD_NUMBER} SUCCEEDED!"
-            emailext (
-                to: "${RECIPIENT_EMAIL}",
-                subject: "SUCCESS: Jenkins Build #${env.BUILD_NUMBER} - ${env.JOB_NAME}",
-                body: """
-                    <p>Hello,</p>
-                    <p>Jenkins Build <b>#${env.BUILD_NUMBER}</b> for <b>${env.JOB_NAME}</b> completed successfully!</p>
-                    <p>All tests passed, Docker image <code>${DOCKER_IMAGE}:${IMAGE_TAG}</code> was pushed to Docker Hub, and stack was deployed cleanly.</p>
-                    <p>View Console Output: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                """,
-                mimeType: 'text/html'
-            )
+            script {
+                try {
+                    emailext (
+                        to: "${RECIPIENT_EMAIL}",
+                        subject: "SUCCESS: Jenkins Build #${env.BUILD_NUMBER} - ${env.JOB_NAME}",
+                        body: """
+                            <p>Hello,</p>
+                            <p>Jenkins Build <b>#${env.BUILD_NUMBER}</b> for <b>${env.JOB_NAME}</b> completed successfully!</p>
+                            <p>All tests passed, Docker image <code>${DOCKER_IMAGE}:${IMAGE_TAG}</code> was pushed to Docker Hub, and stack was deployed cleanly.</p>
+                            <p>View Console Output: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        """,
+                        mimeType: 'text/html'
+                    )
+                } catch (Exception e) {
+                    echo "Email alert notice: ${e.message} (Configure SMTP in Jenkins to receive live emails)"
+                }
+            }
         }
         failure {
             echo "Build #${env.BUILD_NUMBER} FAILED!"
-            emailext (
-                to: "${RECIPIENT_EMAIL}",
-                subject: "FAILURE: Jenkins Build #${env.BUILD_NUMBER} - ${env.JOB_NAME}",
-                body: """
-                    <p>Attention,</p>
-                    <p>Jenkins Build <b>#${env.BUILD_NUMBER}</b> for <b>${env.JOB_NAME}</b> failed.</p>
-                    <p>Please inspect the build logs to diagnose the issue.</p>
-                    <p>View Console Output: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                """,
-                mimeType: 'text/html'
-            )
+            script {
+                try {
+                    emailext (
+                        to: "${RECIPIENT_EMAIL}",
+                        subject: "FAILURE: Jenkins Build #${env.BUILD_NUMBER} - ${env.JOB_NAME}",
+                        body: """
+                            <p>Attention,</p>
+                            <p>Jenkins Build <b>#${env.BUILD_NUMBER}</b> for <b>${env.JOB_NAME}</b> failed.</p>
+                            <p>Please inspect the build logs to diagnose the issue.</p>
+                            <p>View Console Output: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        """,
+                        mimeType: 'text/html'
+                    )
+                } catch (Exception e) {
+                    echo "Email alert notice: ${e.message} (Configure SMTP in Jenkins to receive live emails)"
+                }
+            }
         }
         always {
             cleanWs()
