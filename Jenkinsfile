@@ -16,7 +16,7 @@ pipeline {
 
     environment {
         // Update with your Docker Hub repository: <username>/<repository>
-        DOCKER_IMAGE = 'mithilesh/calculator-api'
+        DOCKER_IMAGE = 'mithilesh2303/calculator-api'
         DOCKER_CRED_ID = 'dockerhub-credentials'
         
         // Notification email recipient
