@@ -1,0 +1,13 @@
+.git
+.gitignore
+.dockerignore
+target
+.idea
+*.iml
+.vscode
+*.log
+README.md
+Jenkinsfile
+docker-compose.yml
+SPE_Mini_Project.docx
+nginx
