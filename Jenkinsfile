@@ -91,6 +91,7 @@ pipeline {
                 sh """
                     export DOCKER_IMAGE=${DOCKER_IMAGE}
                     export IMAGE_TAG=${IMAGE_TAG}
+                    docker rm -f calculator-api calculator-proxy 2>/dev/null || true
                     docker compose down --remove-orphans || true
                     docker compose up -d --build
                 """
