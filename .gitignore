@@ -58,3 +58,7 @@ Thumbs.db
 .env
 *.key
 *.pem
+
+# Local Documentation (Internal)
+documentations/
+
