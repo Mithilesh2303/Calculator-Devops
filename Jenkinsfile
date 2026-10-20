@@ -20,7 +20,7 @@ pipeline {
         JAVA_HOME = '/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home'
 
         // Docker Hub repository: <username>/<repository>
-        DOCKER_IMAGE = 'mithilesh2303/calculator-api'
+        DOCKER_IMAGE = 'mithileshsai2303/calculator-api'
         DOCKER_CRED_ID = 'dockerhub-credentials'
         
         // Notification email recipient
