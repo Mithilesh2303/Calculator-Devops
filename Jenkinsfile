@@ -24,7 +24,7 @@ pipeline {
         DOCKER_CRED_ID = 'dockerhub-credentials'
         
         // Notification email recipient
-        RECIPIENT_EMAIL = 'Mithilesh.Sai@iiitb.ac.in'
+        RECIPIENT_EMAIL = 'mithileshyechuri03@gmail.com'
         
         // Tag with Jenkins build number for traceability
         IMAGE_TAG = "${env.BUILD_NUMBER}"
