@@ -238,3 +238,10 @@ calculator-devops/
 ├── .gitignore
 └── README.md
 ```
+
+---
+
+## 7. Automated CI/CD Status
+- **Pipeline**: Fully automated via Jenkins Declarative Pipeline and GitHub Webhook triggers.
+- **Health Verification**: Continuous health check validation via Spring Boot Actuator (`/actuator/health`).
+
