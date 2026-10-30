@@ -12,6 +12,7 @@ pipeline {
         // Automatic trigger: GitHub push webhook or Poll SCM fallback
         githubPush()
         pollSCM('H/5 * * * *')
+        //adding to check github webhook
     }
 
     environment {
